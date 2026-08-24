@@ -38,6 +38,12 @@ jobs:
         run: |
           playwright install --with-deps
 
+      - name: Install Allure CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y default-jre
+          npm install -g allure-commandline
+
       - name: Run tests
         run: |
           pytest --alluredir=allure-results
@@ -48,12 +54,6 @@ jobs:
         with:
           name: allure-results
           path: allure-results
-
-      - name: Install Allure CLI
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y default-jre
-          npm install -g allure-commandline
 
       - name: Generate Allure report
         if: always()

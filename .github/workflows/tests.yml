@@ -46,9 +46,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y default-jre
-          curl -o allure.tgz -OLs https://github.com/allure-framework/allure2/releases/latest/download/allure-2.35.1.tgz
-          sudo tar -zxvf allure.tgz -C /opt/
-          sudo ln -s /opt/allure-2.35.1/bin/allure /usr/bin/allure
+          npm install -g allure-commandline
 
       - name: Generate Allure report
         if: always()

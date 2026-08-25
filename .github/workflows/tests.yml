@@ -68,7 +68,7 @@ jobs:
           path: allure-report
 
   deploy:
-    if: github.ref == 'refs/heads/main'
+    if: always() && github.ref == 'refs/heads/main'
     needs: test
     runs-on: ubuntu-latest
 

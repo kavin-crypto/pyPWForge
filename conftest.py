@@ -69,7 +69,8 @@ def browser_invoke(playwright, request):
         allure.attach.file(
             trace_path,
             name="Playwright Trace",
-            attachment_type="application/zip"
+            attachment_type="application/zip",
+            extension="zip"
         )
 
     else:

@@ -11,6 +11,9 @@ on:
 
   workflow_dispatch:
 
+  schedule:
+    - cron: "5 20 * * *"
+
 permissions:
   contents: read
   pages: write

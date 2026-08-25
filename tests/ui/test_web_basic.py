@@ -46,4 +46,4 @@ def test_new_event(UserCredentials, browser_invoke):
     createNewEventPage.fillTotalSeats()
     createNewEventPage.clickAddEventButton()
     menuBar.clickEventButton()
-    eventPage.verifyCreatedNewEventIsVisible("event_name")
+    eventPage.verifyCreatedNewEventIsVisible(event_name)

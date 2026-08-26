@@ -1,30 +1,31 @@
-# Python Playwright Automation Framework
+# pyPWForge — Python Playwright Automation Framework
 
-Python-based test automation framework built with **Playwright, Pytest,
-Page Object Model (POM), API testing, Allure reporting, and GitHub
-Actions CI**.
+Python-based test automation framework built with **Playwright, Pytest, Page Object Model (POM), API testing, Allure reporting, GitHub Actions CI/CD, GitHub Pages, and Slack notifications**.
 
-The project demonstrates reusable UI and API automation with Pytest
-fixtures, parameterized tests, external test data, cross-browser
-execution, failure screenshots, and Playwright traces for debugging.
+The project demonstrates practical SDET concepts including reusable UI/API automation, parameterized tests, external test data, cross-browser execution, failure diagnostics, automated reporting, CI validation, scheduled execution, report publishing, and team notifications.
+
+---
 
 ## Tech Stack
 
--   **Python**
--   **Playwright**
--   **Pytest**
--   **pytest-playwright**
--   **Allure / allure-pytest**
--   **API Testing**
--   **Page Object Model (POM)**
--   **JSON Test Data**
--   **GitHub Actions**
--   **Git**
+- **Language:** Python
+- **UI Automation:** Playwright
+- **Test Framework:** Pytest
+- **API Testing:** Playwright APIRequestContext
+- **Design Pattern:** Page Object Model (POM)
+- **Reporting:** Allure / allure-pytest
+- **CI/CD:** GitHub Actions
+- **Report Hosting:** GitHub Pages
+- **Notifications:** Slack
+- **Test Data:** JSON
+- **Version Control:** Git / GitHub
+
+---
 
 ## Framework Structure
 
-``` text
-practice/
+```text
+pyPWForge/
 │
 ├── .github/
 │   └── workflows/
@@ -58,36 +59,51 @@ practice/
 └── README.md
 ```
 
-> `allure-results/`, `.venv/`, `__pycache__/`, IDE files, and other
-> generated files are excluded through `.gitignore`.
+Generated files such as `allure-results/`, `allure-report/`, `.venv/`, `__pycache__/`, IDE files, and OS-specific files are excluded through `.gitignore`.
 
-## Key Features
+---
 
--   Playwright UI automation with Pytest
--   Page Object Model for UI maintainability
--   Chromium and Firefox support
--   Headed and headless browser execution
--   API testing using Playwright `APIRequestContext`
--   Pytest fixtures for browser and API setup
--   Parameterized UI tests
--   External JSON test data
--   Reusable API utility methods
--   CRUD-style API workflow validation
--   Response status and response body assertions
--   Allure test metadata and execution steps
--   Failure screenshots attached to Allure results
--   Playwright traces captured for failed UI tests
--   GitHub Actions CI configuration
--   Separate local headed and CI headless execution
+# Key Features
 
-## Test Scenarios
+### UI Automation
 
-### UI Automation --- Create Event
+- Playwright UI automation with Pytest
+- Page Object Model for maintainability
+- Chromium and Firefox support
+- Headed and headless execution
+- Parameterized UI tests
+- Reusable page actions
 
-Automates the creation and verification of a new event through the web
-application.
+### API Automation
 
-``` text
+- Playwright `APIRequestContext`
+- CRUD-style API workflow validation
+- Response status and body assertions
+- Reusable API utilities
+- External JSON test data
+
+### Failure Diagnostics
+
+When a UI test fails, the framework captures:
+
+- Failure screenshot
+- Playwright trace
+- Browser actions
+- DOM snapshots
+- Timing information
+- Source information
+
+This gives the team evidence to investigate the failure instead of relying only on the assertion message.
+
+---
+
+# Test Scenarios
+
+## UI — Create Event
+
+The UI test automates creation and verification of a new event.
+
+```text
 Login
   ↓
 Navigate to Events
@@ -101,25 +117,25 @@ Create Event
 Verify Event
 ```
 
-The UI test uses:
+The test uses:
 
--   Parameterized user credentials
--   Page Object Model
--   Dynamic event names
--   Reusable page actions
--   Allure feature/story/title metadata
--   Failure screenshot and Playwright trace support
+- Parameterized credentials
+- Page Object Model
+- Dynamic event names
+- Reusable page actions
+- Allure feature/story/title metadata
+- Failure screenshot and Playwright trace support
 
-### API Testing --- Place Management
+## API — Place Management
 
-Validates a Google Maps Place API workflow covering:
+The API test validates a complete place-management workflow:
 
-``` text
+```text
 Add Location
      ↓
 Get Location
      ↓
-Verify Location Details
+Verify Location
      ↓
 Update Location
      ↓
@@ -128,194 +144,154 @@ Verify Updated Address
 Delete Location
 ```
 
-The API test validates:
+The workflow validates response status, response body, location details, update persistence, and deletion.
 
--   Successful location creation
--   Retrieval using `place_id`
--   Response status and body validation
--   Location details such as name, address, and phone number
--   Address update using `PUT`
--   Persistence of the updated address through a subsequent `GET`
--   Successful location deletion
+---
 
-## Test Data Management
+# Test Data Management
 
-Test data is maintained separately from test implementation using JSON
-files.
+Test data is maintained separately from the test implementation using JSON files.
 
-`location_data.json` separates creation data from update-specific data:
-
-``` json
-{
-    "create_location": {
-        "name": "Frontline house",
-        "address": "29, side layout, cohen 09"
-    },
-    "update_location": {
-        "address": "70 winter walk, USA"
-    }
-}
+```text
+testData/
+├── userCredentials.json
+└── location_data.json
 ```
 
-This prevents update-specific values from being included in the location
-creation payload.
+The current `userCredentials.json` contains **dummy training credentials**.
 
-The current `userCredentials.json` contains dummy training credentials.
-For production or real environments, credentials should be supplied
-through environment variables or CI secrets rather than committed to
-source control.
+For real environments, credentials should not be committed to source control. Use environment variables or GitHub Actions Secrets instead.
 
-## Setup
+---
 
-### 1. Clone the repository
+# Local Setup
 
-``` bash
+## 1. Clone the repository
+
+```bash
 git clone <repository-url>
-cd practice
+cd pyPWForge
 ```
 
-### 2. Create and activate a virtual environment
+## 2. Create a virtual environment
 
-``` bash
+```bash
 python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-### 3. Install dependencies
+## 3. Install dependencies
 
-``` bash
+```bash
 pip install -r requirements.txt
 ```
 
-### 4. Install Playwright browsers
+## 4. Install Playwright browsers
 
-``` bash
+```bash
 playwright install
 ```
 
-## Run Tests
+---
 
-### Run the complete test suite
+# Running Tests
 
-``` bash
+## Complete test suite
+
+```bash
 pytest
 ```
 
-By default, UI tests run in **headless mode**.
+By default, UI tests run in headless mode.
 
-### Run UI tests with a visible browser
+## UI tests
 
-``` bash
-pytest tests/ui --headed
-```
-
-### Run UI tests
-
-``` bash
+```bash
 pytest tests/ui
 ```
 
-### Run API tests
+## UI tests with a visible browser
 
-``` bash
+```bash
+pytest tests/ui --headed
+```
+
+## API tests
+
+```bash
 pytest tests/api
 ```
 
-### Run using a specific browser
+## Chrome
 
-``` bash
+```bash
 pytest --browser_name=chrome
 ```
 
-or:
+## Firefox
 
-``` bash
+```bash
 pytest --browser_name=firefox
 ```
 
-### Run Firefox with a visible browser
+## Firefox with headed mode
 
-``` bash
+```bash
 pytest --browser_name=firefox --headed
 ```
 
-## Allure Reporting
+---
 
-Allure results are generated by the `allure-pytest` plugin.
+# Allure Reporting
+
+Allure is integrated with Pytest through `allure-pytest`.
 
 Run tests with:
 
-``` bash
+```bash
 pytest --alluredir=allure-results
 ```
 
-This creates the raw Allure result files under:
+This creates the raw Allure execution data:
 
-``` text
+```text
 allure-results/
+├── result files
+├── container files
+└── attachments
 ```
 
-Failed UI tests also generate:
+`allure-results` is **not the dashboard**. It is the raw test data consumed by the Allure CLI.
 
--   Failure screenshots
--   Playwright trace `.zip` files
+To generate a report locally:
 
-The trace contains browser actions, screenshots, DOM snapshots, source
-information, and timing data that can be used to investigate failures.
-
-The Allure CLI is not required for the current local test execution.
-Report generation and publishing can be handled as part of the CI
-pipeline.
-
-## CI/CD --- GitHub Actions
-
-The project includes a GitHub Actions workflow:
-
-``` text
-.github/
-└── workflows/
-    └── tests.yml
+```bash
+allure generate allure-results -o allure-report --clean
 ```
 
-The workflow runs on:
+To serve it locally:
 
--   Pushes to `main`
--   Pull requests targeting `main`
-
-The CI pipeline currently performs:
-
-``` text
-Checkout repository
-        ↓
-Set up Python 3.12
-        ↓
-Install requirements
-        ↓
-Install Playwright browsers
-        ↓
-Run Pytest
-        ↓
-Generate Allure results
+```bash
+python3 -m http.server 8000 --directory allure-report
 ```
 
-GitHub Actions runs the browser tests in **headless mode** because the
-workflow executes:
+Then open:
 
-``` bash
-pytest --alluredir=allure-results
+```text
+http://localhost:8000
 ```
 
-while local headed execution is available with:
+Using a local HTTP server is preferable to opening `index.html` directly because the Allure report uses browser-side resources.
 
-``` bash
-pytest --headed
-```
+---
 
-## Failure Diagnostics
+# Failure Screenshots and Playwright Traces
 
-For failed UI tests, the framework captures:
+The framework starts Playwright tracing when the browser context is created.
 
-``` text
+For a failed UI test:
+
+```text
 Test Failure
      │
      ├── Failure Screenshot
@@ -328,37 +304,343 @@ Test Failure
            └── Timing
 ```
 
-This provides additional evidence for debugging failures instead of
-relying only on the assertion error.
+The trace is attached to the Allure result as a ZIP file.
 
-## Project Focus
+### View the trace locally
 
-This project focuses on practical SDET and QA automation concepts:
+Using the Playwright CLI:
 
--   UI automation
--   API automation
--   Page Object Model
--   API request abstraction
--   Test data management
--   Pytest fixtures
--   Parameterization
--   Cross-browser testing
--   Headed/headless execution
--   API response validation
--   End-to-end API workflow validation
--   Test reporting
--   Failure diagnostics
--   CI automation with GitHub Actions
+```bash
+playwright show-trace <trace-file>.zip
+```
 
-## Future Improvements
+### View the trace in a browser
 
-Potential next improvements include:
+You can also use the **Playwright Trace Viewer**:
 
--   Publish Allure reports directly from GitHub Actions
--   Upload screenshots and Playwright traces as CI artifacts
--   Add API and UI negative test scenarios
--   Move credentials and API configuration to environment variables / CI
-    secrets
--   Add API request/response attachments to Allure
--   Add parallel test execution
--   Add test markers for selective execution
+**https://trace.playwright.dev/**
+
+Download the `.zip` trace attachment from Allure or GitHub Actions and drag and drop it into the Trace Viewer.
+
+The Trace Viewer provides a detailed view of browser actions, screenshots, DOM snapshots, source information, network activity, and timing, making it easier to investigate why a test failed.
+
+---
+
+# CI/CD — GitHub Actions
+
+The workflow is located at:
+
+```text
+.github/
+└── workflows/
+    └── tests.yml
+```
+
+The CI pipeline supports:
+
+- Push to `main`
+- Pull requests targeting `main`
+- Manual execution through **Run workflow**
+- Scheduled execution using cron
+
+The CI pipeline runs on a fresh Ubuntu runner.
+
+## CI Flow
+
+```text
+Push / Pull Request / Manual / Schedule
+                  ↓
+          GitHub Actions
+                  ↓
+          Slack: CI Started
+                  ↓
+           Ubuntu Runner
+                  ↓
+          Setup Python 3.12
+                  ↓
+        Install Dependencies
+                  ↓
+      Install Playwright Browsers
+                  ↓
+          Install Allure CLI
+                  ↓
+             Run Pytest
+                  ↓
+          Allure Results
+                  ↓
+          Generate Report
+                  ↓
+        Upload CI Artifacts
+                  ↓
+      ┌───────────┴───────────┐
+      │                       │
+     PR                     main
+      │                       │
+      ▼                       ▼
+No Pages deployment      GitHub Pages
+      │                       │
+      ▼                       ▼
+CI Artifacts             Allure Dashboard
+      │                       │
+      └───────────┬───────────┘
+                  ▼
+          Slack: CI Completed
+```
+
+---
+
+# Workflow Triggers
+
+### Push
+
+A push to `main` triggers the workflow.
+
+### Pull Request
+
+A pull request targeting `main` triggers CI validation.
+
+PRs run the tests and generate Allure artifacts, but **do not publish the report to the shared GitHub Pages dashboard**.
+
+This prevents different pull requests from overwriting the same shared dashboard.
+
+### Manual
+
+The workflow can be started manually from:
+
+```text
+GitHub
+ → Actions
+ → Automated Tests
+ → Run workflow
+```
+
+### Scheduled
+
+The workflow also runs automatically using a cron schedule configured in `tests.yml`.
+
+The schedule uses the configured timezone:
+
+```yaml
+timezone: "Europe/Berlin"
+```
+
+---
+
+# Allure Artifacts in CI
+
+The CI workflow preserves two artifacts:
+
+### `allure-results`
+
+Raw Allure execution data, including test metadata and attachments.
+
+### `allure-report`
+
+The generated HTML Allure report.
+
+These artifacts remain useful for investigating failed CI executions.
+
+For pull requests, the Allure report is **not deployed to GitHub Pages**, but the generated report remains available through the specific GitHub Actions run.
+
+The Slack completion notification provides a direct link to that workflow run so the team can access the artifacts.
+
+---
+
+# GitHub Pages — Allure Dashboard
+
+For executions on the `main` branch:
+
+```text
+Test
+ ↓
+Allure Results
+ ↓
+Allure Report
+ ↓
+GitHub Pages
+ ↓
+Allure Dashboard
+```
+
+The deployment job downloads the generated Allure report, packages it for GitHub Pages, and deploys it.
+
+The workflow is configured with:
+
+```yaml
+if: always() && github.ref == 'refs/heads/main'
+```
+
+This means a failed `main` test can still produce and publish the failure report.
+
+The workflow remains **failed** because the test job failed, but the report is still available for investigation.
+
+---
+
+# Slack CI Notifications
+
+GitHub Actions sends CI notifications to a dedicated Slack channel.
+
+The webhook is stored securely as:
+
+```text
+SLACK_WEBHOOK_URL
+```
+
+in GitHub Actions repository secrets.
+
+The webhook URL is **never stored in the repository**.
+
+## CI Started
+
+When a workflow begins, Slack receives information such as:
+
+```text
+🔵 CI Started
+
+Repository: kavin-crypto/pyPWForge
+Branch: main
+Triggered by: kavin-crypto
+Workflow: Automated Tests
+Commit: <commit-sha>
+```
+
+This is useful when multiple QA/SDET engineers or other team members are working on the repository because the team can immediately see who triggered the CI run.
+
+## CI Completed — main
+
+After testing and deployment:
+
+```text
+✅ CI Completed
+
+Repository: kavin-crypto/pyPWForge
+Branch: main
+Triggered by: kavin-crypto
+Status: success
+Workflow: Automated Tests
+
+📊 Allure Report:
+<GitHub Pages URL>
+```
+
+The Allure URL is obtained dynamically from the GitHub Pages deployment rather than hard-coded.
+
+## CI Completed — Pull Request
+
+For pull requests:
+
+```text
+✅ CI Completed
+
+Repository: kavin-crypto/pyPWForge
+Branch: <PR branch>
+Triggered by: <user>
+Status: success
+Workflow: Automated Tests
+
+📦 Allure Report:
+Not deployed for pull requests.
+
+🔎 View CI Artifacts:
+<GitHub Actions run URL>
+```
+
+The team member can open the specific workflow run and download the Allure report artifact for debugging.
+
+---
+
+# Debugging a Failed CI Test
+
+Recommended debugging flow:
+
+```text
+GitHub Actions
+      ↓
+Check failed step
+      ↓
+Open Allure Report
+      ↓
+Inspect assertion / logs
+      ↓
+Open failure screenshot
+      ↓
+Download Playwright trace
+      ↓
+Open Trace Viewer
+      ↓
+Investigate browser actions and DOM state
+```
+
+This separates:
+
+- **CI execution information** — GitHub Actions
+- **Test execution details** — Allure
+- **Visual evidence** — Screenshot
+- **Detailed browser execution** — Playwright Trace Viewer
+- **Team notification** — Slack
+
+---
+
+# CI Design Principles
+
+The pipeline separates different responsibilities:
+
+```text
+TESTING
+Playwright + Pytest
+        ↓
+EVIDENCE
+Screenshot + Trace + Logs
+        ↓
+REPORTING
+Allure
+        ↓
+CI/CD
+GitHub Actions
+        ↓
+PUBLISHING
+GitHub Pages
+        ↓
+NOTIFICATION
+Slack
+```
+
+The goal is not only to execute tests, but also to:
+
+1. Validate changes automatically.
+2. Preserve evidence when tests fail.
+3. Generate an understandable test report.
+4. Publish the report when appropriate.
+5. Notify the team about the execution.
+6. Make failures easier to investigate.
+
+---
+
+# Project Focus
+
+This project focuses on practical **SDET and QA automation engineering** concepts:
+
+- UI automation
+- API automation
+- Page Object Model
+- Pytest fixtures
+- Parameterization
+- Test data management
+- Cross-browser testing
+- Headed/headless execution
+- API response validation
+- End-to-end API workflows
+- Allure reporting
+- Failure screenshots
+- Playwright tracing
+- GitHub Actions CI/CD
+- Scheduled test execution
+- GitHub Pages
+- Slack CI notifications
+- CI failure diagnostics
+
+---
+
+# CI/CD Summary
+
+> **pyPWForge is a Python Playwright automation framework using Pytest for UI and API testing. It integrates Allure for test reporting, captures failure screenshots and Playwright traces, and uses GitHub Actions to automatically validate changes, generate reports, publish the latest `main` report through GitHub Pages, and notify the team through Slack.**

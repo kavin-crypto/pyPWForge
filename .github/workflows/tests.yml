@@ -144,5 +144,5 @@ jobs:
           webhook-type: incoming-webhook
           payload: |
             {
-              "text": "${{ needs.test.result == 'success' && '✅' || '❌' }} CI Completed\nRepository: ${{ github.repository }}\nBranch: ${{ github.ref_name }}\nTriggered by: ${{ github.actor }}\nStatus: ${{ needs.test.result }}\nWorkflow: ${{ github.workflow }}\n${{ github.ref == 'refs/heads/main' && format('📊 Allure Report: {0}', needs.deploy.outputs.page_url) || format('📦 Allure Report: Not deployed for pull requests.\\n🔎 View CI Artifacts: {0}/{1}/actions/runs/{2}', github.server_url, github.repository, github.run_id) }}"
+              "text": "${{ needs.test.result == 'success' && '✅' || '❌' }} CI Completed\nRepository: ${{ github.repository }}\nBranch: ${{ github.ref_name }}\nTriggered by: ${{ github.actor }}\nStatus: ${{ needs.test.result }}\nWorkflow: ${{ github.workflow }}\n${{ github.ref == 'refs/heads/main' && format('📊 Allure Report: {0}', needs.deploy.outputs.page_url) || format('📦 Allure Report: Not deployed for pull requests.\n🔎 View CI Artifacts: {0}/{1}/actions/runs/{2}', github.server_url, github.repository, github.run_id) }}"
             }
